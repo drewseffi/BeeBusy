@@ -9,5 +9,7 @@ Makefile
 *.dll
 *.pdb
 
+notes.md
+
 .DS_Store
 Thumbs.db

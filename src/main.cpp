@@ -4,6 +4,7 @@
 #include "BeeManager.h"
 #include "GameObject.h"
 #include "Flowerpot.h"
+#include "PotManager.h"
 
 int main(void)
 {
@@ -17,16 +18,11 @@ int main(void)
     bool debug = false;
     Texture2D bg = LoadTexture("assets/grass.png");
 
-    //--Set beeManager and player controller--
+    //--Set managers and player controller--
     BeeManager beeManager(screenWidth, screenHeight, 1.0f);
     Player player(screenWidth / 2, screenHeight / 2, 200);
-
-    //--Create list of all objects--
-    std::vector<GameObject*> objects;
-
-
-    objects.push_back(new Flowerpot(100, 100, true));
-    
+    PotManager potManager(screenWidth, screenHeight, 5);
+    potManager.SpawnInitialPots();
 
     //--Game loop--
     while (!WindowShouldClose())
@@ -47,9 +43,9 @@ int main(void)
 
         player.Update(deltaTime);
 
-        for (auto obj : objects)
+        for (auto pot : potManager.pots)
         {
-            if (CheckCollisionRecs(player.GetCollider(), obj->GetCollider()))
+            if (CheckCollisionRecs(player.GetCollider(), pot.GetCollider()))
             {
                 player.position = oldPosition;
             }
@@ -58,15 +54,15 @@ int main(void)
         //--Check for bee collision with pots--
         for (auto &bee : beeManager.bees)
         {
-            for (auto obj : objects)
+            for (auto pot : potManager.pots)
             {
-                Flowerpot* pot = dynamic_cast<Flowerpot*>(obj);
+                Flowerpot* potCast = dynamic_cast<Flowerpot*>(&pot);
 
-                if (pot)
+                if (potCast)
                 {
-                    if (CheckCollisionRecs(bee.GetCollider(), pot->GetCollider()) && pot->hasPlant)
+                    if (CheckCollisionRecs(bee.GetCollider(), potCast->GetCollider()) && potCast->hasPlant)
                     {
-                        pot->hasPlant = false;
+                        potCast->hasPlant = false;
                         
                         bee.movingRight = !bee.movingRight;
                     }
@@ -78,10 +74,10 @@ int main(void)
         BeginDrawing();
         DrawTexture(bg, 0, 0, WHITE);
 
-        //--Draw all objects--
-        for (auto obj : objects)
+        //--Draw all pots--
+        for (auto pot : potManager.pots)
         {
-            obj->Draw();
+            pot.Draw();
         }
 
         //--Draw entities--
@@ -116,10 +112,10 @@ int main(void)
                 );
             }
 
-            //--Draw object collision--
-            for (auto obj : objects)
+            //--Draw pot collision--
+            for (auto pot : potManager.pots)
             {
-                Rectangle collisionBox = obj->GetCollider();
+                Rectangle collisionBox = pot.GetCollider();
 
                 DrawRectangleLines(
                     (int)collisionBox.x,
@@ -133,8 +129,8 @@ int main(void)
             //--Draw FPS--
             DrawText(TextFormat("FPS: %i", GetFPS()), 10, 10, 20, BLACK);
 
-            //--Draw object counter--
-            DrawText(TextFormat("Objects: %i", objects.size()), 10, 30, 20, BLACK);
+            //--Draw pot counter--
+            DrawText(TextFormat("Pots: %i", potManager.pots.size()), 10, 30, 20, BLACK);
 
             //--Draw bee counter--
             DrawText(TextFormat("Bees: %i", beeManager.bees.size()), 10, 50, 20, BLACK);
@@ -147,10 +143,9 @@ int main(void)
     }
 
 
-    for (auto obj : objects)
+    for (auto pot : potManager.pots)
     {
-        obj->~GameObject();
-        delete obj;
+        pot.~Flowerpot();
     }
 
     for (auto bees : beeManager.bees)
