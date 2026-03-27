@@ -1,3 +1,0 @@
-C:/Users/drews/dev/BeeBusy/CMakeFiles/BeeBusy.dir
-C:/Users/drews/dev/BeeBusy/CMakeFiles/ALL_BUILD.dir
-C:/Users/drews/dev/BeeBusy/CMakeFiles/ZERO_CHECK.dir
