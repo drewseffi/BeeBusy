@@ -1,0 +1,38 @@
+[
+{
+  "directory": "C:/Users/drews/dev/BeeBusy/build",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe  @CMakeFiles/BeeBusy.dir/includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles\\BeeBusy.dir\\src\\Bee.cpp.obj -c C:\\Users\\drews\\dev\\BeeBusy\\src\\Bee.cpp",
+  "file": "C:/Users/drews/dev/BeeBusy/src/Bee.cpp",
+  "output": "CMakeFiles/BeeBusy.dir/src/Bee.cpp.obj"
+},
+{
+  "directory": "C:/Users/drews/dev/BeeBusy/build",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe  @CMakeFiles/BeeBusy.dir/includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles\\BeeBusy.dir\\src\\BeeManager.cpp.obj -c C:\\Users\\drews\\dev\\BeeBusy\\src\\BeeManager.cpp",
+  "file": "C:/Users/drews/dev/BeeBusy/src/BeeManager.cpp",
+  "output": "CMakeFiles/BeeBusy.dir/src/BeeManager.cpp.obj"
+},
+{
+  "directory": "C:/Users/drews/dev/BeeBusy/build",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe  @CMakeFiles/BeeBusy.dir/includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles\\BeeBusy.dir\\src\\Flowerpot.cpp.obj -c C:\\Users\\drews\\dev\\BeeBusy\\src\\Flowerpot.cpp",
+  "file": "C:/Users/drews/dev/BeeBusy/src/Flowerpot.cpp",
+  "output": "CMakeFiles/BeeBusy.dir/src/Flowerpot.cpp.obj"
+},
+{
+  "directory": "C:/Users/drews/dev/BeeBusy/build",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe  @CMakeFiles/BeeBusy.dir/includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles\\BeeBusy.dir\\src\\GameObject.cpp.obj -c C:\\Users\\drews\\dev\\BeeBusy\\src\\GameObject.cpp",
+  "file": "C:/Users/drews/dev/BeeBusy/src/GameObject.cpp",
+  "output": "CMakeFiles/BeeBusy.dir/src/GameObject.cpp.obj"
+},
+{
+  "directory": "C:/Users/drews/dev/BeeBusy/build",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe  @CMakeFiles/BeeBusy.dir/includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles\\BeeBusy.dir\\src\\Player.cpp.obj -c C:\\Users\\drews\\dev\\BeeBusy\\src\\Player.cpp",
+  "file": "C:/Users/drews/dev/BeeBusy/src/Player.cpp",
+  "output": "CMakeFiles/BeeBusy.dir/src/Player.cpp.obj"
+},
+{
+  "directory": "C:/Users/drews/dev/BeeBusy/build",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe  @CMakeFiles/BeeBusy.dir/includes_CXX.rsp -g -std=gnu++17 -o CMakeFiles\\BeeBusy.dir\\src\\main.cpp.obj -c C:\\Users\\drews\\dev\\BeeBusy\\src\\main.cpp",
+  "file": "C:/Users/drews/dev/BeeBusy/src/main.cpp",
+  "output": "CMakeFiles/BeeBusy.dir/src/main.cpp.obj"
+}
+]

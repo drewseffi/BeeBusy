@@ -1,0 +1,3 @@
+C:/Users/drews/dev/BeeBusy/build/CMakeFiles/BeeBusy.dir
+C:/Users/drews/dev/BeeBusy/build/CMakeFiles/edit_cache.dir
+C:/Users/drews/dev/BeeBusy/build/CMakeFiles/rebuild_cache.dir
