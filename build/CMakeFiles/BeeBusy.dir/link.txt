@@ -1,3 +1,3 @@
 "C:\Program Files\CMake\bin\cmake.exe" -E rm -f CMakeFiles\BeeBusy.dir/objects.a
-C:\msys64\mingw64\bin\ar.exe qc CMakeFiles\BeeBusy.dir/objects.a @CMakeFiles\BeeBusy.dir\objects1.rsp
-C:\msys64\mingw64\bin\g++.exe -g -Wl,--whole-archive CMakeFiles\BeeBusy.dir/objects.a -Wl,--no-whole-archive -o BeeBusy.exe -Wl,--out-implib,libBeeBusy.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\BeeBusy.dir\linkLibs.rsp
+C:\mingw64\bin\ar.exe qc CMakeFiles\BeeBusy.dir/objects.a @CMakeFiles\BeeBusy.dir\objects1.rsp
+C:\mingw64\bin\g++.exe -g -Wl,--whole-archive CMakeFiles\BeeBusy.dir/objects.a -Wl,--no-whole-archive -o BeeBusy.exe -Wl,--out-implib,libBeeBusy.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\BeeBusy.dir\linkLibs.rsp
