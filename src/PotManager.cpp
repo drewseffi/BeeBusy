@@ -1,5 +1,6 @@
 #include "PotManager.h"
 #include "raylib.h"
+#include "raymath.h"
 #include <iostream>
 #include <cmath>
 
@@ -8,6 +9,9 @@ PotManager::PotManager(int screenWidth, int screenHeight, int initialPotCount)
     this->screenWidth = screenWidth;
     this->screenHeight = screenHeight;
     this->initialPotCount = initialPotCount;
+
+    potTexture = LoadTexture("assets/plantpot.png");
+    plantTexture = LoadTexture("assets/yellowflower.png");
 }
 
 void PotManager::Update(float deltaTime)
@@ -19,7 +23,7 @@ void PotManager::Draw()
 {
     for (auto &pot : pots)
     {
-        pot.Draw();
+        pot.Draw(potTexture, plantTexture);
     }
 }
 
@@ -46,10 +50,23 @@ void PotManager::SpawnInitialPots()
 
             validPos = true;
 
+            if (x < 40 || x > (screenWidth - 80) ||
+                y < 80 || y > (screenHeight - 80))
+            {
+                validPos = false;
+            }
+
+            Vector2 center = {screenWidth / 2.0f, screenHeight / 2.0f};
+
+            if (Vector2Distance({x, y}, center) < 40)
+            {
+                validPos = false;
+            }
+
             for (auto &pot : pots)
             {
-                if (fabs(x - pot.position.x) < 40 &&
-                    fabs(y - pot.position.y) < 40)
+                if (fabs(x - pot.position.x) < 80 &&
+                    fabs(y - pot.position.y) < 80)
                 {
                     validPos = false;
                     break;

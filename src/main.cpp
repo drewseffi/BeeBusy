@@ -43,7 +43,7 @@ int main(void)
 
         player.Update(deltaTime);
 
-        for (auto pot : potManager.pots)
+        for (auto &pot : potManager.pots)
         {
             if (CheckCollisionRecs(player.GetCollider(), pot.GetCollider()))
             {
@@ -54,18 +54,13 @@ int main(void)
         //--Check for bee collision with pots--
         for (auto &bee : beeManager.bees)
         {
-            for (auto pot : potManager.pots)
+            for (auto &pot : potManager.pots)
             {
-                Flowerpot* potCast = dynamic_cast<Flowerpot*>(&pot);
-
-                if (potCast)
+                if (CheckCollisionRecs(bee.GetCollider(), pot.GetCollider()) && pot.hasPlant)
                 {
-                    if (CheckCollisionRecs(bee.GetCollider(), potCast->GetCollider()) && potCast->hasPlant)
-                    {
-                        potCast->hasPlant = false;
-                        
-                        bee.movingRight = !bee.movingRight;
-                    }
+                    pot.hasPlant = false;
+                    
+                    bee.movingRight = !bee.movingRight;
                 }
             }
         }
@@ -75,10 +70,7 @@ int main(void)
         DrawTexture(bg, 0, 0, WHITE);
 
         //--Draw all pots--
-        for (auto pot : potManager.pots)
-        {
-            pot.Draw();
-        }
+        potManager.Draw();
 
         //--Draw entities--
         player.Draw();
@@ -113,7 +105,7 @@ int main(void)
             }
 
             //--Draw pot collision--
-            for (auto pot : potManager.pots)
+            for (auto &pot : potManager.pots)
             {
                 Rectangle collisionBox = pot.GetCollider();
 
@@ -142,13 +134,7 @@ int main(void)
         EndDrawing();
     }
 
-
-    for (auto pot : potManager.pots)
-    {
-        pot.~Flowerpot();
-    }
-
-    for (auto bees : beeManager.bees)
+    for (auto &bees : beeManager.bees)
     {
         bees.Unload();
     }

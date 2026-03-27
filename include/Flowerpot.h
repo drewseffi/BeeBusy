@@ -8,14 +8,11 @@ class Flowerpot : public GameObject
 public:
     bool hasPlant;
 
-    Texture2D plantTexture;
-    Texture2D potTexture;
-
     Flowerpot(float x, float y, bool hasPlant);
 
-    void Draw() override;
+    void Draw(Texture2D& potTexture, Texture2D& plantTexture);
     Rectangle GetCollider() override;
-    ~Flowerpot();
+    void Unload(Texture2D& potTexture, Texture2D& plantTexture);
 };
 
 #endif

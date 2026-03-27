@@ -13,6 +13,9 @@ class PotManager
         int screenHeight;
         int initialPotCount;
 
+        Texture2D potTexture;
+        Texture2D plantTexture;
+
         // Constructor
         PotManager(int screenWidth, int screenHeight, int intitialPotCount);
 
@@ -21,6 +24,7 @@ class PotManager
         void Unload();
         void SpawnNewPot();
         void SpawnInitialPots();
+
 };
 
 #endif

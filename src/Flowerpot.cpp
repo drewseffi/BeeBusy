@@ -4,12 +4,9 @@ Flowerpot::Flowerpot(float x, float y, bool hasPlant)
     : GameObject("assets/plantpot.png", x, y)
 {
     this->hasPlant = hasPlant;
-
-    potTexture = LoadTexture("assets/plantpot.png");
-    plantTexture = LoadTexture("assets/yellowflower.png");
 }
 
-void Flowerpot::Draw()
+void Flowerpot::Draw(Texture2D& potTexture, Texture2D& plantTexture)
 {
     Texture2D& tex = hasPlant ? plantTexture : potTexture;
 
@@ -31,7 +28,7 @@ Rectangle Flowerpot::GetCollider()
     };
 }
 
-Flowerpot::~Flowerpot()
+void Flowerpot::Unload(Texture2D& potTexture, Texture2D& plantTexture)
 {
     UnloadTexture(potTexture);
     UnloadTexture(plantTexture);
