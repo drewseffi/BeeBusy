@@ -26,6 +26,10 @@ class BeeManager
     private:
         void SpawnBee();
         int beesPassed;
+        int beesPassedThisWave;
+        int beesPassedLastWave;
+        int wave;
+        float currentBeeSpeed;
 };
 
 #endif

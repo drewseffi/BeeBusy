@@ -222,7 +222,7 @@ int main(void)
                 //--Draw bee counter--
                 DrawText(TextFormat("Bees: %i", beeManager.bees.size()), 10, 50, 20, BLACK);
 
-                //--Draw time--
+                //--Draw bees passed--
                 DrawText(TextFormat("Num bees passed: %i", beeManager.BeesPassed()), 10, 70, 20, BLACK);
             }
         }

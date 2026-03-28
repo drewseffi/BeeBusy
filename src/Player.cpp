@@ -36,7 +36,8 @@ void Player::Draw()
 
     if (hasSeed)
     {
-        DrawTextureEx(seedTexture, drawPos, 0.0f, 1.0f, WHITE);
+        //DrawTextureEx(seedTexture, drawPos, 0.0f, 1.0f, WHITE);
+        DrawTextureEx(baseTexture, drawPos, 0.0f, 1.0f, WHITE);
     }
     else
     {
