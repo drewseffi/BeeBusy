@@ -31,7 +31,7 @@ void PotManager::Unload()
 {
     for (auto &pot : pots)
     {
-        pot.~Flowerpot();
+        pot.Unload(potTexture, plantTexture);
     }
 }
 

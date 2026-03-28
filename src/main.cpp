@@ -5,6 +5,7 @@
 #include "GameObject.h"
 #include "Flowerpot.h"
 #include "PotManager.h"
+#include "Seed.h"
 
 int main(void)
 {
@@ -19,10 +20,13 @@ int main(void)
     Texture2D bg = LoadTexture("assets/grass.png");
 
     //--Set managers and player controller--
-    BeeManager beeManager(screenWidth, screenHeight, 1.0f);
+    BeeManager beeManager(screenWidth, screenHeight, 2.0f);
     Player player(screenWidth / 2, screenHeight / 2, 200);
+
     PotManager potManager(screenWidth, screenHeight, 6);
     potManager.SpawnInitialPots();
+
+    Seed seed(screenWidth, screenHeight, potManager.pots);
 
     //--Game loop--
     while (!WindowShouldClose())
@@ -37,7 +41,6 @@ int main(void)
         //--Update beeManager--
         beeManager.Update(deltaTime);
 
-
         //--Check for player collision with pots--
         Vector2 oldPosition = player.position;
 
@@ -48,7 +51,19 @@ int main(void)
             if (CheckCollisionRecs(player.GetCollider(), pot.GetPotCollider()))
             {
                 player.position = oldPosition;
+
+                if (player.hasSeed && !pot.hasPlant)
+                {
+                    pot.hasPlant = true;
+                    player.hasSeed = false;
+                }
             }
+        }
+
+        //--Check player collision with seeds--
+        if (CheckCollisionRecs(player.GetCollider(), seed.GetCollider()))
+        {
+            player.hasSeed = true;
         }
 
         //--Check for bee collision with pots--
@@ -79,8 +94,19 @@ int main(void)
         potManager.Draw();
 
         //--Draw entities--
+        seed.Draw();
         player.Draw();
         beeManager.Draw();
+
+        //--Show seed text above player--
+        int textWidth = MeasureText("You have a plant, hurry!", 20);
+
+        int textStartX = player.position.x - textWidth / 2;
+
+        if (player.hasSeed)
+        {
+            DrawText("You have a plant, hurry!", textStartX, player.position.y - 60, 20, RED);   
+        }
 
         //--Draw debug tools--
         if (debug)
@@ -130,9 +156,19 @@ int main(void)
                     (int)collisionBox.y,
                     (int)collisionBox.width,
                     (int)collisionBox.height,
-                    YELLOW
+                    RED
                 );
             }
+
+            Rectangle seedCol = seed.GetCollider();
+
+            DrawRectangleLines(
+                (int)seedCol.x,
+                (int)seedCol.y,
+                (int)seedCol.width,
+                (int)seedCol.height,
+                RED
+            );
 
             //--Draw FPS--
             DrawText(TextFormat("FPS: %i", GetFPS()), 10, 10, 20, BLACK);
@@ -155,7 +191,10 @@ int main(void)
         bees.Unload();
     }
 
+    potManager.Unload();
+
     player.Unload();
+    seed.Unload();
     UnloadTexture(bg);
     CloseWindow();
 

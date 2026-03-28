@@ -15,7 +15,7 @@ public:
     virtual void Draw();
     virtual Rectangle GetCollider();
 
-    virtual ~GameObject();
+    virtual void Unload();
 };
 
 #endif

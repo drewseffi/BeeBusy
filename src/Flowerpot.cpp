@@ -1,7 +1,6 @@
 #include "Flowerpot.h"
 
-Flowerpot::Flowerpot(float x, float y, bool hasPlant)
-    : GameObject("assets/plantpot.png", x, y)
+Flowerpot::Flowerpot(float x, float y, bool hasPlant) : GameObject("assets/plantpot.png", x, y)
 {
     this->hasPlant = hasPlant;
 }

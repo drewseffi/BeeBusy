@@ -6,8 +6,10 @@ Player::Player(float x, float y, float speed)
 {
     position = {x, y};
     this->speed = speed;
+    hasSeed = false;
 
-    texture = LoadTexture("assets/player.png");
+    baseTexture = LoadTexture("assets/player.png");
+    seedTexture = LoadTexture("assets/yellowflower.png");
 }
 
 void Player::Update(float deltaTime)
@@ -30,23 +32,32 @@ void Player::Update(float deltaTime)
 
 void Player::Draw()
 {
-    Vector2 drawPos = {position.x - texture.width / 2, position.y - texture.height / 2};
+    Vector2 drawPos = {position.x - baseTexture.width / 2, position.y - baseTexture.height / 2};
 
-    DrawTextureEx(texture, drawPos, 0.0f, 1.0f, WHITE);
+    if (hasSeed)
+    {
+        DrawTextureEx(seedTexture, drawPos, 0.0f, 1.0f, WHITE);
+    }
+    else
+    {
+        DrawTextureEx(baseTexture, drawPos, 0.0f, 1.0f, WHITE);
+    }
+    
 }
 
 void Player::Unload()
 {
-    UnloadTexture(texture);
+    UnloadTexture(baseTexture);
+    UnloadTexture(seedTexture);
 }
 
 Rectangle Player::GetCollider()
 {
     return 
     {
-        position.x - texture.width / 4,
-        position.y - texture.height / 2,
-        (float)texture.width / 2,
-        (float)texture.height
+        position.x - baseTexture.width / 4,
+        position.y - baseTexture.height / 2,
+        (float)baseTexture.width / 2,
+        (float)baseTexture.height
     };
 }

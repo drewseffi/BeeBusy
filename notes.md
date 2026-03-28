@@ -2,9 +2,10 @@
 
 ## To-Do
 
-- Spawn plant pots randomly
-- Ability to get flowers from box
-- Ability to plant flowers
+- Spawn plant pots randomly [DONE]
+- Ability to get flowers from box [DONE]
+- Ability to plant flowers [DONE]
+- Score system
 - Bees speed up based on number of bees passed
     - Algorithm for bee speed
 - More bees spawn based on number of bees passed

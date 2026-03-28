@@ -24,7 +24,7 @@ Rectangle GameObject::GetCollider()
     };
 }
 
-GameObject::~GameObject()
+void GameObject::Unload()
 {
     UnloadTexture(texture);
 }
