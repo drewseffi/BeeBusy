@@ -18,13 +18,23 @@ void Flowerpot::Draw(Texture2D& potTexture, Texture2D& plantTexture)
     );
 }
 
-Rectangle Flowerpot::GetCollider()
+Rectangle Flowerpot::GetPotCollider()
 {
     return {
         position.x - texture.width / 4,
-        position.y - texture.height / 2,
+        position.y - texture.height / 16,
         (float)texture.width / 2,
-        (float)texture.height
+        (float)texture.height /2
+    };
+}
+
+Rectangle Flowerpot::GetPlantCollider()
+{
+    return {
+        position.x - texture.width / 8,
+        position.y - texture.height / 2,
+        (float)texture.width / 4,
+        (float)texture.height - 10
     };
 }
 

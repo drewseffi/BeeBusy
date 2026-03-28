@@ -44,8 +44,8 @@ Rectangle Bee::GetCollider()
     return 
     {
         position.x - texture.width / 4,
-        position.y - texture.height / 4,
+        position.y - texture.height / 8,
         (float)texture.width / 2,
-        (float)texture.height / 2
+        (float)texture.height / 4
     };
 }

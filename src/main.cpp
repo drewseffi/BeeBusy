@@ -21,7 +21,7 @@ int main(void)
     //--Set managers and player controller--
     BeeManager beeManager(screenWidth, screenHeight, 1.0f);
     Player player(screenWidth / 2, screenHeight / 2, 200);
-    PotManager potManager(screenWidth, screenHeight, 5);
+    PotManager potManager(screenWidth, screenHeight, 6);
     potManager.SpawnInitialPots();
 
     //--Game loop--
@@ -45,7 +45,7 @@ int main(void)
 
         for (auto &pot : potManager.pots)
         {
-            if (CheckCollisionRecs(player.GetCollider(), pot.GetCollider()))
+            if (CheckCollisionRecs(player.GetCollider(), pot.GetPotCollider()))
             {
                 player.position = oldPosition;
             }
@@ -56,7 +56,13 @@ int main(void)
         {
             for (auto &pot : potManager.pots)
             {
-                if (CheckCollisionRecs(bee.GetCollider(), pot.GetCollider()) && pot.hasPlant)
+                if (CheckCollisionRecs(bee.GetCollider(), pot.GetPotCollider()) && pot.hasPlant)
+                {
+                    pot.hasPlant = false;
+                    
+                    bee.movingRight = !bee.movingRight;
+                }
+                else if (CheckCollisionRecs(bee.GetCollider(), pot.GetPlantCollider()) && pot.hasPlant)
                 {
                     pot.hasPlant = false;
                     
@@ -107,7 +113,7 @@ int main(void)
             //--Draw pot collision--
             for (auto &pot : potManager.pots)
             {
-                Rectangle collisionBox = pot.GetCollider();
+                Rectangle collisionBox = pot.GetPotCollider();
 
                 DrawRectangleLines(
                     (int)collisionBox.x,
@@ -115,6 +121,16 @@ int main(void)
                     (int)collisionBox.width,
                     (int)collisionBox.height,
                     RED
+                );
+
+                collisionBox = pot.GetPlantCollider();
+
+                DrawRectangleLines(
+                    (int)collisionBox.x,
+                    (int)collisionBox.y,
+                    (int)collisionBox.width,
+                    (int)collisionBox.height,
+                    YELLOW
                 );
             }
 

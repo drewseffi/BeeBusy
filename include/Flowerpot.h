@@ -11,7 +11,8 @@ public:
     Flowerpot(float x, float y, bool hasPlant);
 
     void Draw(Texture2D& potTexture, Texture2D& plantTexture);
-    Rectangle GetCollider() override;
+    Rectangle GetPotCollider();
+    Rectangle GetPlantCollider();
     void Unload(Texture2D& potTexture, Texture2D& plantTexture);
 };
 
