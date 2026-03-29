@@ -7,6 +7,9 @@
 #include "PotManager.h"
 #include "Seed.h"
 
+#include <cmath>
+#include <string>
+
 int main(void)
 {
     //--Initialize window--
@@ -16,8 +19,12 @@ int main(void)
     InitWindow(screenWidth, screenHeight, "BeeBusy");
     SetExitKey(KEY_NULL);
     SetTargetFPS(60);
+
+    //--Game variables--
     bool debug = false;
     Texture2D bg = LoadTexture("assets/grass.png");
+    float timer = 0.0f;
+    int score = 0;
 
     //--Set up game state--
     enum GameState
@@ -40,6 +47,9 @@ int main(void)
     //--Reset block for managers--
     auto ResetGame = [&]()
     {
+        timer = 0.0f;
+        score = 0.0f;
+
         beeManager = BeeManager(screenWidth, screenHeight, 2.0f);
 
         player = Player(screenWidth / 2, screenHeight / 2, 200);
@@ -61,6 +71,8 @@ int main(void)
 
         if (gameState == PLAYING)
         {
+            timer += deltaTime;
+
             if (IsKeyPressed(KEY_ESCAPE))
             {
                 debug = !debug;
@@ -99,6 +111,8 @@ int main(void)
                     {
                         pot.hasPlant = true;
                         player.hasSeed = false;
+
+                        score += 10;
                     }
                 }
             }
@@ -224,10 +238,15 @@ int main(void)
 
                 //--Draw bees passed--
                 DrawText(TextFormat("Num bees passed: %i", beeManager.BeesPassed()), 10, 70, 20, BLACK);
+
+                //--Draw timer--
+                DrawText(TextFormat("Time: %f", timer), 10, 90, 20, BLACK);
             }
         }
         else if (gameState == GAME_OVER)
         {
+            score = (round(timer)) * 100;
+
             ClearBackground(BLACK);
 
             int textWidth = MeasureText("GAME OVER", 40);
@@ -239,6 +258,12 @@ int main(void)
             textStartX = screenWidth / 2 - textWidth / 2;
             textStartY = screenHeight / 2 - 10;
             DrawText("Press R to Restart", textStartX, screenHeight / 2 + 40, 20, RED);
+
+            const char* text = TextFormat("Your score: %i", score);
+            textWidth = MeasureText(text, 20);
+            textStartX = screenWidth / 2 - textWidth / 2;
+            textStartY = screenHeight / 2 - 10;
+            DrawText(text, textStartX, screenHeight / 2 + 90, 20, YELLOW);
 
             if (IsKeyPressed(KEY_R))
             {
