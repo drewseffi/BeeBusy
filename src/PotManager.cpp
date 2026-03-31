@@ -48,8 +48,6 @@ void PotManager::SpawnInitialPots()
             float x = GetRandomValue(0, screenWidth);
             float y = GetRandomValue(0, screenHeight);
 
-            validPos = true;
-
             if (x < 40 || x > (screenWidth - 80) ||
                 y < 80 || y > (screenHeight - 80))
             {
@@ -72,6 +70,8 @@ void PotManager::SpawnInitialPots()
                     break;
                 }
             }
+
+            validPos = true;
 
             if (validPos)
             {

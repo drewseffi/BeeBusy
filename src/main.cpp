@@ -6,6 +6,7 @@
 #include "Flowerpot.h"
 #include "PotManager.h"
 #include "Seed.h"
+#include "PowerUpManager.h"
 
 #include <cmath>
 #include <string>
@@ -25,6 +26,12 @@ int main(void)
     Texture2D bg = LoadTexture("assets/grass.png");
     float timer = 0.0f;
     int score = 0;
+    float speedDuration = 7.0f;
+    float doubleDuration = 15.0f;
+    int plantPoints = 10;
+    int playerSpeed = 200;
+    float speedStartTime = 0.0f;
+    float doubleStartTime = 0.0f;
 
     //--Set up game state--
     enum GameState
@@ -37,12 +44,14 @@ int main(void)
 
     //--Set managers and player controller--
     BeeManager beeManager(screenWidth, screenHeight, 2.0f);
-    Player player(screenWidth / 2, screenHeight / 2, 200);
+    Player player(screenWidth / 2, screenHeight / 2, playerSpeed);
 
     PotManager potManager(screenWidth, screenHeight, 6);
     potManager.SpawnInitialPots();
 
     Seed seed(screenWidth, screenHeight, potManager.pots);
+
+    PowerUpManager powerUpManager(screenWidth, screenHeight, 10.0f);
 
     //--Reset block for managers--
     auto ResetGame = [&]()
@@ -52,12 +61,14 @@ int main(void)
 
         beeManager = BeeManager(screenWidth, screenHeight, 2.0f);
 
-        player = Player(screenWidth / 2, screenHeight / 2, 200);
+        player = Player(screenWidth / 2, screenHeight / 2, playerSpeed);
 
         potManager = PotManager(screenWidth, screenHeight, 6);
         potManager.SpawnInitialPots();
 
         seed = Seed(screenWidth, screenHeight, potManager.pots);
+
+        powerUpManager = PowerUpManager(screenWidth, screenHeight, 10.0f);
 
         gameState = PLAYING;
     };
@@ -66,6 +77,9 @@ int main(void)
     while (!WindowShouldClose())
     {
         float deltaTime = GetFrameTime();
+
+        bool hasSpeed = false;
+        bool hasDoublePoints = false;
 
         BeginDrawing();
 
@@ -96,6 +110,9 @@ int main(void)
             //--Update beeManager--
             beeManager.Update(deltaTime);
 
+            //--Update powerUpManager--
+            powerUpManager.Update(deltaTime);
+
             //--Check for player collision with pots--
             Vector2 oldPosition = player.position;
 
@@ -112,7 +129,14 @@ int main(void)
                         pot.hasPlant = true;
                         player.hasSeed = false;
 
-                        score += 10;
+                        if (hasDoublePoints)
+                        {
+                            score += plantPoints * 2;
+                        }
+                        else
+                        {
+                            score += plantPoints;
+                        }
                     }
                 }
             }
@@ -121,6 +145,55 @@ int main(void)
             if (CheckCollisionRecs(player.GetCollider(), seed.GetCollider()))
             {
                 player.hasSeed = true;
+            }
+
+            //--Check player collision with powerups--
+            for (auto it = powerUpManager.powerUps.begin(); it != powerUpManager.powerUps.end(); )
+            {
+                auto &powerup = *it;
+
+                if (CheckCollisionRecs(player.GetCollider(), powerup.GetCollider()))
+                {
+                    switch(powerup.type_e)
+                    {
+                        case SPEED:
+                            player.speed += 200.0f;
+                            hasSpeed = true;
+                            powerup.pickupTime = timer;
+                            speedStartTime = timer;
+                            it = powerUpManager.powerUps.erase(it);
+                            continue;
+
+                        case FILL:
+                            for (auto &pot : potManager.pots)
+                            {
+                                pot.hasPlant = true;
+                            }
+                            it = powerUpManager.powerUps.erase(it);
+                            continue;
+
+                        case DOUBLE:
+                            hasDoublePoints = true;
+                            powerup.pickupTime = timer;
+                            doubleStartTime = timer;
+                            it = powerUpManager.powerUps.erase(it);
+                            continue;
+                    }
+                }
+
+                ++it;
+            }
+
+            //--Checking if powerups are still valid--
+            if (hasSpeed && timer > speedStartTime + speedDuration)
+            {
+                hasSpeed = false;
+                player.speed = playerSpeed;
+            }
+
+            if (hasDoublePoints && timer > doubleStartTime + doubleDuration)
+            {
+                hasDoublePoints = false;
             }
 
             //--Check for bee collision with pots--
@@ -153,6 +226,7 @@ int main(void)
             seed.Draw();
             player.Draw();
             beeManager.Draw();
+            powerUpManager.Draw();
 
             //--Show seed text above player--
             int textWidth = MeasureText("You have a plant, hurry!", 20);
@@ -241,11 +315,21 @@ int main(void)
 
                 //--Draw timer--
                 DrawText(TextFormat("Time: %f", timer), 10, 90, 20, BLACK);
+
+                //--Draw player speed--
+                DrawText(TextFormat("Time: %f", player.speed), 10, 110, 20, BLACK);
             }
         }
         else if (gameState == GAME_OVER)
         {
-            score = (round(timer)) * 100;
+            if (hasDoublePoints)
+            {
+                score = (round(timer)) * 200;
+            }
+            else
+            {
+                score = (round(timer)) * 100; 
+            }
 
             ClearBackground(BLACK);
 
@@ -283,6 +367,7 @@ int main(void)
     potManager.Unload();
     player.Unload();
     seed.Unload();
+    powerUpManager.Unload();
     UnloadTexture(bg);
 
     CloseWindow();

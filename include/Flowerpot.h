@@ -5,15 +5,15 @@
 
 class Flowerpot : public GameObject
 {
-public:
-    bool hasPlant;
+    public:
+        bool hasPlant;
 
-    Flowerpot(float x, float y, bool hasPlant);
+        Flowerpot(float x, float y, bool hasPlant);
 
-    void Draw(Texture2D& potTexture, Texture2D& plantTexture);
-    Rectangle GetPotCollider();
-    Rectangle GetPlantCollider();
-    void Unload(Texture2D& potTexture, Texture2D& plantTexture);
+        void Draw(Texture2D& potTexture, Texture2D& plantTexture);
+        Rectangle GetPotCollider();
+        Rectangle GetPlantCollider();
+        void Unload(Texture2D& potTexture, Texture2D& plantTexture);
 };
 
 #endif
