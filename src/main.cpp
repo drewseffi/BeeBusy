@@ -7,6 +7,7 @@
 #include "PotManager.h"
 #include "Seed.h"
 #include "PowerUpManager.h"
+#include "SoundManager.h"
 
 #include <cmath>
 #include <string>
@@ -18,12 +19,18 @@ int main(void)
     const int screenHeight = 800;
 
     InitWindow(screenWidth, screenHeight, "BeeBusy");
+    InitAudioDevice();
     SetExitKey(KEY_NULL);
     SetTargetFPS(60);
 
+    //--Load sounds--
+    SoundManager soundManager;
+    soundManager.Load();
+    soundManager.BackgroundMusic();
+
     //--Game variables--
     bool debug = false;
-    Texture2D bg = LoadTexture("assets/grass.png");
+    Texture2D bg = LoadTexture("assets/textures/grass.png");
     float timer = 0.0f;
     int score = 0;
     float speedDuration = 7.0f;
@@ -32,6 +39,8 @@ int main(void)
     int playerSpeed = 200;
     float speedStartTime = 0.0f;
     float doubleStartTime = 0.0f;
+    bool hasSpeed = false;
+    bool hasDoublePoints = false;
 
     //--Set up game state--
     enum GameState
@@ -76,10 +85,9 @@ int main(void)
     //--Game loop--
     while (!WindowShouldClose())
     {
-        float deltaTime = GetFrameTime();
+        soundManager.Update();
 
-        bool hasSpeed = false;
-        bool hasDoublePoints = false;
+        float deltaTime = GetFrameTime();
 
         BeginDrawing();
 
@@ -105,6 +113,7 @@ int main(void)
             if (potCount == 0)
             {
                 gameState = GAME_OVER;
+                soundManager.Play(SFX_GAME_OVER);
             }
 
             //--Update beeManager--
@@ -137,14 +146,17 @@ int main(void)
                         {
                             score += plantPoints;
                         }
+
+                        soundManager.Play(SFX_PLANT);
                     }
                 }
             }
 
             //--Check player collision with seeds--
-            if (CheckCollisionRecs(player.GetCollider(), seed.GetCollider()))
+            if (CheckCollisionRecs(player.GetCollider(), seed.GetCollider()) && !player.hasSeed)
             {
                 player.hasSeed = true;
+                soundManager.Play(SFX_SEED);
             }
 
             //--Check player collision with powerups--
@@ -162,6 +174,7 @@ int main(void)
                             powerup.pickupTime = timer;
                             speedStartTime = timer;
                             it = powerUpManager.powerUps.erase(it);
+                            soundManager.Play(SFX_PICKUP);
                             continue;
 
                         case FILL:
@@ -170,6 +183,7 @@ int main(void)
                                 pot.hasPlant = true;
                             }
                             it = powerUpManager.powerUps.erase(it);
+                            soundManager.Play(SFX_PICKUP);
                             continue;
 
                         case DOUBLE:
@@ -177,6 +191,7 @@ int main(void)
                             powerup.pickupTime = timer;
                             doubleStartTime = timer;
                             it = powerUpManager.powerUps.erase(it);
+                            soundManager.Play(SFX_PICKUP);
                             continue;
                     }
                 }
@@ -206,12 +221,16 @@ int main(void)
                         pot.hasPlant = false;
                         
                         bee.movingRight = !bee.movingRight;
+
+                        soundManager.Play(SFX_PLANT_DESTORY);
                     }
                     else if (CheckCollisionRecs(bee.GetCollider(), pot.GetPlantCollider()) && pot.hasPlant)
                     {
                         pot.hasPlant = false;
                         
                         bee.movingRight = !bee.movingRight;
+
+                        soundManager.Play(SFX_PLANT_DESTORY);
                     }
                 }
             }
@@ -369,6 +388,9 @@ int main(void)
     seed.Unload();
     powerUpManager.Unload();
     UnloadTexture(bg);
+
+    soundManager.Unload();
+    CloseAudioDevice();
 
     CloseWindow();
     return 0;

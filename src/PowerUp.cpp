@@ -3,7 +3,7 @@
 
 #include <string>
 
-PowerUp::PowerUp(float x, float y, std::string type, float duration, float startTime) : GameObject("assets/speed.png", x, y)
+PowerUp::PowerUp(float x, float y, std::string type, float duration, float startTime) : GameObject("assets/textures/speed.png", x, y)
 {
     position = {x, y};
     this->duration = duration;

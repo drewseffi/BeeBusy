@@ -11,9 +11,9 @@ PowerUpManager::PowerUpManager(int screenWidth, int screenHeight, float duration
     this->timer = 0.0f;
     this->respawnTimer = 0.0f;
 
-    speedTexture = LoadTexture("assets/speed.png");
-    fillTexture = LoadTexture("assets/fill.png");
-    doubleTexture = LoadTexture("assets/double.png");
+    speedTexture = LoadTexture("assets/textures/speed.png");
+    fillTexture = LoadTexture("assets/textures/fill.png");
+    doubleTexture = LoadTexture("assets/textures/double.png");
 }
 
 void PowerUpManager::Update(float deltaTime)

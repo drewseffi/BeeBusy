@@ -7,7 +7,7 @@ Seed::Seed(int screenWidth, int screenHeight, std::vector<Flowerpot>& pots)
 {
     this->screenWidth = screenWidth;
     this->screenHeight = screenHeight;
-    this->texture = LoadTexture("assets/seedbag.png");
+    this->texture = LoadTexture("assets/textures/seedbag.png");
 
     bool validPos = false;
     while (!validPos)

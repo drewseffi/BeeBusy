@@ -16,23 +16,24 @@
 - Player animations
 - Bee animations
 - Power-up animations
-- Seed sound
-- Pot sound
-- Bee sounds (Maybe)
-- Power-up sounds
+- Seed sound [DONE]
+- Pot sound [DONE]
+- Bee sounds [DONE]
+- Power-up sounds [DONE]
 - Points animation for planting flowers
+- Balancing
+- Save high score and update
 
 ## Bugs
 
 Number of bees passed is wrong on laptop build [FIXED]
 -- Was a problem with defining `this->var = var` leading to the program allocating a random point in memory to the variable. Always define correctly in the constructor.
 
-Score not centered on game over screen
-
 Double points powerup crashes the game [FIXED]
 -- Was using a while loop inside the main game loop that was not returning control. Rookie mistake.
 
-Speed boost powerup not resetting correctly
+Speed boost powerup not resetting correctly [FIXED]
+-- Was declaring hasSpeed and hasDouble as false in the game loop
 
 ## General
 

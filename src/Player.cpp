@@ -8,8 +8,8 @@ Player::Player(float x, float y, float speed)
     this->speed = speed;
     hasSeed = false;
 
-    baseTexture = LoadTexture("assets/player.png");
-    seedTexture = LoadTexture("assets/yellowflower.png");
+    baseTexture = LoadTexture("assets/textures/player.png");
+    seedTexture = LoadTexture("assets/textures/yellowflower.png");
 }
 
 void Player::Update(float deltaTime)

@@ -8,7 +8,7 @@ Bee::Bee(bool movingRight, float x, float y, float speed)
     this->speed = speed;
     this->movingRight = movingRight;
 
-    texture = LoadTexture("assets/bee.png");
+    texture = LoadTexture("assets/textures/bee.png");
 }
 
 void Bee::Update(float deltaTime)

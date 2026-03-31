@@ -10,8 +10,8 @@ PotManager::PotManager(int screenWidth, int screenHeight, int initialPotCount)
     this->screenHeight = screenHeight;
     this->initialPotCount = initialPotCount;
 
-    potTexture = LoadTexture("assets/plantpot.png");
-    plantTexture = LoadTexture("assets/yellowflower.png");
+    potTexture = LoadTexture("assets/textures/plantpot.png");
+    plantTexture = LoadTexture("assets/textures/yellowflower.png");
 }
 
 void PotManager::Update(float deltaTime)

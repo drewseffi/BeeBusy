@@ -15,3 +15,5 @@ After the initial setup I was able to slowly flesh out the game from the inital 
 ## Additional notes
 
 ## Credits
+
+All sound effects were created using the website [jsfxr](https://sfxr.me/), with all music being made by myself.
