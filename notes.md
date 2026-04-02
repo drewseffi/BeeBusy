@@ -33,7 +33,10 @@ Double points powerup crashes the game [FIXED]
 -- Was using a while loop inside the main game loop that was not returning control. Rookie mistake.
 
 Speed boost powerup not resetting correctly [FIXED]
--- Was declaring hasSpeed and hasDouble as false in the game loop
+-- Was declaring hasSpeed and hasDouble as false in the game loop.
+
+Player sometimes spawns inside a pot [FIXED]
+-- `validPos` was being declared true after the checks so even if a position was invalid it would spawn anyway. Moved `validPos = true` to the start of the loop.
 
 ## General
 

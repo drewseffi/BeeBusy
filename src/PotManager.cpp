@@ -45,6 +45,7 @@ void PotManager::SpawnInitialPots()
 
         while (!validPos)
         {
+            validPos = true;
             float x = GetRandomValue(0, screenWidth);
             float y = GetRandomValue(0, screenHeight);
 
@@ -56,7 +57,7 @@ void PotManager::SpawnInitialPots()
 
             Vector2 center = {screenWidth / 2.0f, screenHeight / 2.0f};
 
-            if (Vector2Distance({x, y}, center) < 40)
+            if (Vector2Distance({x, y}, center) < 80)
             {
                 validPos = false;
             }
@@ -70,8 +71,6 @@ void PotManager::SpawnInitialPots()
                     break;
                 }
             }
-
-            validPos = true;
 
             if (validPos)
             {

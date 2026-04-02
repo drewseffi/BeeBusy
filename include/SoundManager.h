@@ -19,7 +19,7 @@ class SoundManager
         Music bgMusic;
 
         void Load();
-        void Update();
+        void Update(int sfxVol, int musicVol);
         void Play(SoundType type);
         void BackgroundMusic();
         void Unload();

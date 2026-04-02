@@ -8,9 +8,11 @@
 #include "Seed.h"
 #include "PowerUpManager.h"
 #include "SoundManager.h"
+#include "Button.h"
 
 #include <cmath>
 #include <string>
+#include <iostream>
 
 int main(void)
 {
@@ -22,11 +24,6 @@ int main(void)
     InitAudioDevice();
     SetExitKey(KEY_NULL);
     SetTargetFPS(60);
-
-    //--Load sounds--
-    SoundManager soundManager;
-    soundManager.Load();
-    soundManager.BackgroundMusic();
 
     //--Game variables--
     bool debug = false;
@@ -41,12 +38,20 @@ int main(void)
     float doubleStartTime = 0.0f;
     bool hasSpeed = false;
     bool hasDoublePoints = false;
+    int musicVolume = 100.0f;
+    int sfxVolume = 100.0f;
+
+    //--Load sounds--
+    SoundManager soundManager;
+    soundManager.Load();
+    soundManager.BackgroundMusic();
 
     //--Set up game state--
     enum GameState
     {
         PLAYING,
-        GAME_OVER
+        GAME_OVER,
+        PAUSED
     };
 
     GameState gameState = PLAYING;
@@ -85,7 +90,7 @@ int main(void)
     //--Game loop--
     while (!WindowShouldClose())
     {
-        soundManager.Update();
+        soundManager.Update(sfxVolume, musicVolume);
 
         float deltaTime = GetFrameTime();
 
@@ -95,9 +100,16 @@ int main(void)
         {
             timer += deltaTime;
 
-            if (IsKeyPressed(KEY_ESCAPE))
+            //--Show debug menu--
+            if (IsKeyPressed(KEY_Q))
             {
                 debug = !debug;
+            }
+
+            //--Pauses game--
+            if (IsKeyPressed(KEY_ESCAPE))
+            {
+                gameState = PAUSED;
             }
 
             //--Check lose condition--
@@ -336,8 +348,60 @@ int main(void)
                 DrawText(TextFormat("Time: %f", timer), 10, 90, 20, BLACK);
 
                 //--Draw player speed--
-                DrawText(TextFormat("Time: %f", player.speed), 10, 110, 20, BLACK);
+                DrawText(TextFormat("Player speed: %f", player.speed), 10, 110, 20, BLACK);
             }
+        }
+        else if (gameState == PAUSED)
+        {
+            if (IsKeyPressed(KEY_ESCAPE))
+            {
+                gameState = PLAYING;
+            }
+
+            ClearBackground(BLACK);
+
+            //--Music volume up--
+            DrawText(TextFormat("Music Volume: %i", musicVolume), 10, 10, 40, WHITE);
+            int textWidth = MeasureText("Music Volume: 100", 40);
+
+            Button musicVolumeUp(10 + textWidth + 40, 30, 40.0f, 40.0f, "+");
+            musicVolumeUp.Draw();
+
+            if (musicVolumeUp.IsClicked() && musicVolume != 100)
+            {
+                musicVolume += 10;
+            }
+
+            //--Music volume down--
+            Button musicVolumeDown(10 + textWidth + 90, 30, 40.0f, 40.0f, "-");
+            musicVolumeDown.Draw();
+
+            if (musicVolumeDown.IsClicked() && musicVolume != 0)
+            {
+                musicVolume -= 10;
+            }
+
+            //--SFX volume up--
+            DrawText(TextFormat("SFX Volume: %i", sfxVolume), 10, 70, 40, WHITE);
+            textWidth = MeasureText("SFX Volume: 100", 40);
+
+            Button sfxVolumeUp(10 + textWidth + 40, 90, 40.0f, 40.0f, "+");
+            sfxVolumeUp.Draw();
+
+            if (sfxVolumeUp.IsClicked() && sfxVolume != 100)
+            {
+                sfxVolume += 10;
+            }
+
+            //--SFX volume down--
+            Button sfxVolumeDown(10 + textWidth + 90, 90, 40.0f, 40.0f, "-");
+            sfxVolumeDown.Draw();
+
+            if (sfxVolumeDown.IsClicked() && sfxVolume != 0)
+            {
+                sfxVolume -= 10;
+            }
+
         }
         else if (gameState == GAME_OVER)
         {

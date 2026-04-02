@@ -11,8 +11,14 @@ void SoundManager::Load()
     bgMusic = LoadMusicStream("assets/audio/bgMusic.wav");
 }
 
-void SoundManager::Update()
+void SoundManager::Update(int sfxVol, int musicVol)
 {
+    for (auto &sound : sounds)
+    {
+        SetSoundVolume(sound.second, sfxVol / 100.0f);
+    }
+
+    SetMusicVolume(bgMusic, musicVol / 100.0f);
     UpdateMusicStream(bgMusic);
 }
 

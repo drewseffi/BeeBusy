@@ -77,22 +77,36 @@ void PowerUpManager::Unload()
 
 void PowerUpManager::SpawnPowerup(float duration)
 {
-    float x = GetRandomValue(0, screenWidth);
-    float y = GetRandomValue(0, screenHeight);
-
+    bool validPos = false;
     int type = GetRandomValue(0, 2);
 
-    switch(type)
+    while(!validPos)
     {
-        case 0:
-            powerUps.push_back(PowerUp(x, y, "speed", duration, timer));
-            break;
-        case 1:
-            powerUps.push_back(PowerUp(x, y, "fill", duration, timer));
-            break;
-        case 2:
-            powerUps.push_back(PowerUp(x, y, "double", duration, timer));
-            break;
+        validPos = true;
+        float x = GetRandomValue(0, screenWidth);
+        float y = GetRandomValue(0, screenHeight);
+
+        if (x < 40 || x > (screenWidth - 80) ||
+            y < 80 || y > (screenHeight - 80))
+        {
+            validPos = false;
+        }
+
+        if (validPos)
+        {
+            switch(type)
+            {
+                case 0:
+                    powerUps.push_back(PowerUp(x, y, "speed", duration, timer));
+                    break;
+                case 1:
+                    powerUps.push_back(PowerUp(x, y, "fill", duration, timer));
+                    break;
+                case 2:
+                    powerUps.push_back(PowerUp(x, y, "double", duration, timer));
+                    break;
+            }
+        }
     }
 }
 
