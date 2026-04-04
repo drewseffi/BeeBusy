@@ -12,8 +12,20 @@ After the initial setup I was able to slowly flesh out the game from the inital 
 
 ## What I would do differently
 
-## Additional notes
+I would look into game engine structure as I have far too much written in the `main.cpp` file and I would like to seperate that out. This is one of the main reasons that this has become a fairly messy project that even I get lost in while scrolling to find something.
+
+I would've liked to have more UI elements in the game but I need to come up with a better solution for placement of entities and UI elements as there is a lot of "magic numbers" being used to align text or entities correctly. A full UI system would be hard but would be very rewarding to use. For example being able to chose how the origin of an element is aligned like "top-left, center, bottom-right" would be great as sometimes you know where the top-left needs to start and sometimes you know where the center needs to start.
+
+Have less "game variables" that the entire games logic depends on as this leads to the code being rather scattered and isn't very modular.
+
+## Afterthoughts
+
+Even though this was a rather small game with an extremely limited scope, having to hand build all systems and functions from scratch (except for the raylib functions) was quite a burden and I would, in the future, potentially use a game engine even for a small task like this.
+
+Although the idea of building a game in C++ with raylib was a bit challenging, I can see the enjoyment of having your own engine and getting to build the systems from the ground up. I may work on an "engine" as a hobby project but I would be building it to build an engine, not a game. I would also want to build tools around it such as a map editor and asset importer for example.
+
+Raylib was an absolute wonder to work with as it took away all of the need to work with OpenGL (or any other graphics library) and allowed me to work on what was really important to this project rather than trying to render to the screen correctly.
 
 ## Credits
 
-All sound effects were created using the website [jsfxr](https://sfxr.me/), with all music being made by myself.
+All sound effects were created using the website [jsfxr](https://sfxr.me/), with all music and art being made by myself.
