@@ -28,6 +28,7 @@ int main(void)
     //--Game variables--
     bool debug = false;
     Texture2D bg = LoadTexture("assets/textures/grass.png");
+    Texture logo = LoadTexture("assets/textures/logo.png");
     float timer = 0.0f;
     int score = 0;
     float speedDuration = 7.0f;
@@ -51,10 +52,12 @@ int main(void)
     {
         PLAYING,
         GAME_OVER,
-        PAUSED
+        PAUSED,
+        MENU
     };
 
-    GameState gameState = PLAYING;
+    GameState gameState = MENU;
+    GameState lastState = MENU;
 
     //--Set managers and player controller--
     BeeManager beeManager(screenWidth, screenHeight, 2.0f);
@@ -110,6 +113,7 @@ int main(void)
             if (IsKeyPressed(KEY_ESCAPE))
             {
                 gameState = PAUSED;
+                lastState = PLAYING;
             }
 
             //--Check lose condition--
@@ -125,6 +129,7 @@ int main(void)
             if (potCount == 0)
             {
                 gameState = GAME_OVER;
+                lastState = PLAYING;
                 soundManager.Play(SFX_GAME_OVER);
             }
 
@@ -353,11 +358,6 @@ int main(void)
         }
         else if (gameState == PAUSED)
         {
-            if (IsKeyPressed(KEY_ESCAPE))
-            {
-                gameState = PLAYING;
-            }
-
             ClearBackground(BLACK);
 
             //--Music volume up--
@@ -402,6 +402,15 @@ int main(void)
                 sfxVolume -= 10;
             }
 
+            Button exit(screenWidth - 30, 30, 40, 40, "X");
+            exit.Draw();
+
+            if (IsKeyPressed(KEY_ESCAPE) || exit.IsClicked())
+            {
+                gameState = lastState;
+                lastState = PAUSED;
+            }
+
         }
         else if (gameState == GAME_OVER)
         {
@@ -435,6 +444,27 @@ int main(void)
             if (IsKeyPressed(KEY_R))
             {
                 ResetGame();
+            }
+        }
+        else if (gameState == MENU)
+        {
+            DrawTexture(bg, 0, 0, WHITE);
+            DrawTexture(logo, screenWidth / 2 - logo.width / 2, screenHeight / 2 - logo.height / 2 - 200, WHITE);
+        
+            Button playGame(screenWidth / 2, screenHeight / 2, 200, 80, "PLAY GAME");
+            playGame.Draw();
+            if (playGame.IsClicked())
+            {
+                gameState = PLAYING;
+                lastState = MENU;
+            }
+
+            Button settings(screenWidth / 2, screenHeight / 2 + 100, 200, 80, "SETTINGS");
+            settings.Draw();
+            if (settings.IsClicked())
+            {
+                gameState = PAUSED;
+                lastState = MENU;
             }
         }
 
